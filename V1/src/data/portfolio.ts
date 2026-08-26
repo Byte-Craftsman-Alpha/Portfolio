@@ -9,6 +9,7 @@ export interface Project {
   technologies: string[];
   status: 'shipped' | 'active' | 'fork' | 'experiment' | 'learning';
   repository: string;
+  demoUrl?: string;
   caseStudy: {
     problem: string;
     role: string;
@@ -70,6 +71,7 @@ export const projects: Project[] = [
     technologies: ['Python', 'Flask', 'SQLite', 'HTML5', 'CSS3', 'Bootstrap'],
     status: 'shipped',
     repository: 'https://github.com/Byte-Craftsman-Alpha/Edu-Portal',
+    demoUrl: 'https://ietddugu.pythonanywhere.com/',
     caseStudy: {
       problem:
         'Educational institutions need a lightweight, self-hosted platform for course delivery and student management without reliance on expensive SaaS.',
@@ -90,6 +92,7 @@ export const projects: Project[] = [
     technologies: ['Python', 'Flask', 'SQLite', 'HTML5', 'CSS3', 'Bootstrap'],
     status: 'shipped',
     repository: 'https://github.com/Byte-Craftsman-Alpha/Road-Maintenance-System',
+    demoUrl: 'https://civicsetu.pythonanywhere.com/',
     caseStudy: {
       problem:
         'Municipal road maintenance relies on fragmented complaint channels with no tracking, leading to delayed repairs and no accountability.',
@@ -110,6 +113,7 @@ export const projects: Project[] = [
     technologies: ['Python', 'Flask', 'SQLite', 'HTML5', 'CSS3'],
     status: 'shipped',
     repository: 'https://github.com/Byte-Craftsman-Alpha/Doc-Vault',
+    demoUrl: 'https://mewdrive.pythonanywhere.com/',
     caseStudy: {
       problem:
         'Small organizations need a simple, self-hosted document management system without the complexity of enterprise DMS solutions.',
@@ -130,6 +134,7 @@ export const projects: Project[] = [
     technologies: ['Python', 'Flask', 'SQLite', 'HTML5', 'CSS3', 'Bootstrap'],
     status: 'shipped',
     repository: 'https://github.com/Byte-Craftsman-Alpha/HealthCarePortal',
+    demoUrl: 'https://medicarex.pythonanywhere.com/',
     caseStudy: {
       problem:
         'Local healthcare providers lack affordable digital workflow tools for patient registration, appointment scheduling, and record management.',
@@ -169,7 +174,8 @@ export const projects: Project[] = [
     domain: 'Real-Time Communication',
     technologies: ['Python', 'Flask', 'WebSocket', 'HTML5', 'CSS3', 'JavaScript'],
     status: 'active',
-    repository: 'https://github.com/Byte-Craftsman-Alpha/LAN-Messaging-Web-App',
+    repository: 'https://github.com/Byte-Craftsman-Alpha/Local-Messaging-App',
+    demoUrl: 'https://quickmessaging.pythonanywhere.com/',
     caseStudy: {
       problem:
         'Teams on the same local network need instant messaging without relying on external services or internet connectivity.',
@@ -189,7 +195,7 @@ export const projects: Project[] = [
     domain: 'Browser Automation',
     technologies: ['Python', 'Selenium'],
     status: 'active',
-    repository: 'https://github.com/Byte-Craftsman-Alpha/Web-Automation-Suite',
+    repository: 'https://github.com/Byte-Craftsman-Alpha/Web-Automation',
     caseStudy: {
       problem:
         'Repetitive web interactions — form filling, data scraping, testing — consume significant manual time and are error-prone when done by hand.',
@@ -209,7 +215,7 @@ export const projects: Project[] = [
     domain: 'Computer Vision',
     technologies: ['Python', 'OpenCV'],
     status: 'active',
-    repository: 'https://github.com/Byte-Craftsman-Alpha/Face-Detection-System',
+    repository: 'https://github.com/Byte-Craftsman-Alpha/open-cv-face-detection',
     caseStudy: {
       problem:
         'Real-time face detection is a foundational CV task with applications in security, attendance, and human-computer interaction, but requires practical implementation skill.',
@@ -229,7 +235,8 @@ export const projects: Project[] = [
     domain: 'Document Storage',
     technologies: ['Python', 'OpenCV'],
     status: 'experiment',
-    repository: 'https://github.com/Byte-Craftsman-Alpha',
+    repository: 'https://github.com/Byte-Craftsman-Alpha/aadhar-scanner',
+    demoUrl: 'https://aadhar-scanner-pi.vercel.app',
     caseStudy: {
       problem:
         'Extracting text from identity documents (Aadhaar, PAN, etc.) manually is slow and error-prone. OCR automation can accelerate verification workflows.',

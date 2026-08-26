@@ -27,7 +27,7 @@ function SkillTag({ item, isLearning }: { item: string; isLearning: boolean }) {
       onMouseLeave={() => setIsPressed(false)}
       style={{ backgroundColor: bgColor, borderColor }}
       animate={{
-        scale: isPressed ? 0.95 : isHovered && !reduced ? 1.05 : 1,
+        scale: isPressed ? 0.95 : 1,
         y: isHovered && !reduced ? -1 : 0,
       }}
       transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}

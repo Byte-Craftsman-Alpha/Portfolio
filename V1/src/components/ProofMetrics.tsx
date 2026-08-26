@@ -42,7 +42,7 @@ function MetricCard({ value, label, source, delay, isInView }: {
     >
       <motion.p
         className="text-3xl md:text-4xl font-semibold text-charcoal mb-1"
-        animate={{ scale: isHovered ? 1.05 : 1 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         {value}

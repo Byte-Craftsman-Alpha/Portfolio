@@ -10,33 +10,36 @@ import SectionReveal from './SectionReveal';
 
 function JsIcon({ color = '#555049' }: { color?: string }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeLinecap="round" strokeWidth="1.5">
-      <path d="M17 7.83L18.6965 9.35641C20.239 10.7447 21.0103 11.4389 21.0103 12.3296C21.0103 13.2203 20.239 13.9145 18.6965 15.3028L17 16.83" />
-      <path d="M13.9868 5L12 12.4149L10.0132 19.8297" />
-      <path d="M7.00005 7.83L5.30358 9.35641C3.76102 10.7447 2.98975 11.4389 2.98975 12.3296C2.98975 13.2203 3.76102 13.9145 5.30358 15.3028L7.00005 16.83" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
+      {/* Chevrons + slash — the universal code symbol */}
+      <polyline points="17 8 20 12 17 16" />
+      <line x1="14" y1="4" x2="10" y2="20" />
+      <polyline points="7 8 4 12 7 16" />
     </svg>
   );
 }
 
 function BootstrapIcon({ color = '#555049' }: { color?: string }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
-      <path d="M2.5 6.5C2.5 4.29086 4.29086 2.5 6.5 2.5C8.70914 2.5 10.5 4.29086 10.5 6.5C10.5 8.70914 8.70914 10.5 6.5 10.5C4.29086 10.5 2.5 8.70914 2.5 6.5Z" />
-      <path d="M13.5 17.5C13.5 15.2909 15.2909 13.5 17.5 13.5C19.7091 13.5 21.5 15.2909 21.5 17.5C21.5 19.7091 19.7091 21.5 17.5 21.5C15.2909 21.5 13.5 19.7091 13.5 17.5Z" />
-      <path d="M21.5 6.5C21.5 4.61438 21.5 3.67157 20.9142 3.08579C20.3284 2.5 19.3856 2.5 17.5 2.5C15.6144 2.5 14.6716 2.5 14.0858 3.08579C13.5 3.67157 13.5 4.61438 13.5 6.5C13.5 8.38562 13.5 9.32843 14.0858 9.91421C14.6716 10.5 15.6144 10.5 17.5 10.5C19.3856 10.5 20.3284 10.5 20.9142 9.91421C21.5 9.32843 21.5 8.38562 21.5 6.5Z" />
-      <path d="M10.5 17.5C10.5 15.6144 10.5 14.6716 9.91421 14.0858C9.32843 13.5 8.38562 13.5 6.5 13.5C4.61438 13.5 3.67157 13.5 3.08579 14.0858C2.5 14.6716 2.5 15.6144 2.5 17.5C2.5 19.3856 2.5 20.3284 3.08579 20.9142C3.67157 21.5 4.61438 21.5 6.5 21.5C8.38562 21.5 9.32843 21.5 9.91421 20.9142C10.5 20.3284 10.5 19.3856 10.5 17.5Z" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5">
+      {/* 2x2 grid of rounded shapes — UI component layout */}
+      <circle cx="7" cy="7" r="3.5" />
+      <circle cx="17" cy="17" r="3.5" />
+      <rect x="14" y="3" width="7" height="7" rx="2" />
+      <rect x="3" y="14" width="7" height="7" rx="2" />
     </svg>
   );
 }
 
 function OcrIcon({ color = '#555049' }: { color?: string }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeLinecap="round" strokeWidth="1.5">
-      <path d="M10 22C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 18.7712 2 15" />
-      <path d="M22 15C22 18.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22" />
-      <path d="M14 2C17.7712 2 19.6569 2 20.8284 3.17157C22 4.34315 22 5.22876 22 9" />
-      <path d="M10 2C6.22876 2 4.34315 2 3.17157 3.17157C2 4.34315 2 5.22876 2 9" />
-      <path d="M2 12H22" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeLinecap="round" strokeWidth="1.5">
+      {/* Scan frame with horizontal line — OCR/scan icon */}
+      <path d="M8 3H5C3.9 3 3 3.9 3 5V8" />
+      <path d="M21 8V5C21 3.9 20.1 3 19 3H16" />
+      <path d="M16 21H19C20.1 21 21 20.1 21 19V16" />
+      <path d="M3 16V19C3 20.1 3.9 21 5 21H8" />
+      <line x1="3" y1="12" x2="21" y2="12" />
     </svg>
   );
 }
@@ -209,7 +212,7 @@ function RatingBadge({ skill, index, isInView, reduced }: {
       {/* Icon — SEPARATE element, NOT inside the ring overlay */}
       <motion.div
         className="flex-shrink-0 flex items-center justify-center"
-        animate={{ scale: isHovered ? 1.15 : 1 }}
+        animate={{ scale: isHovered ? 1 : 1 }}
         transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <SkillIcon id={skill.id} icon={skill.icon} color={iconColor} />
@@ -298,7 +301,7 @@ function CategoryTag({ label }: { label: string }) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       animate={{
-        scale: isHovered && !reduced ? 1.06 : 1,
+        scale: isHovered && !reduced ? 1 : 1,
         y: isHovered && !reduced ? -1 : 0,
         borderColor: isHovered ? 'rgba(138,133,128,0.4)' : '#e8e4df',
         color: isHovered ? '#555049' : 'rgba(138,133,128,0.5)',
@@ -423,7 +426,7 @@ export default function RatingBadges() {
               <Icon icon="solar:filter-linear" width={24} className="text-taupe/40 mx-auto mb-3" />
               <p className="text-sm text-taupe">No skills match this filter.</p>
               <motion.button
-                whileHover={{ scale: 1.05, borderColor: '#8a8580' }}
+                whileHover={{ borderColor: '#8a8580' }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setFilter('all')}
                 className="mt-3 px-3 py-1.5 text-[11px] font-medium text-charcoal border border-hairline rounded-lg min-h-[36px] outline-none"

@@ -5,13 +5,12 @@ import useReducedMotion from '../hooks/useReducedMotion';
 /**
  * Premium morphing cursor — editorial precision instrument.
  *
- * A design-tool-grade pointer that transforms based on context:
+ * FIX: The cursor now ALWAYS shows the system cursor as fallback.
+ * The custom cursor only hides the system cursor once it's confirmed
+ * visible (after first mouse move). This prevents the "no cursor" bug.
  *
- *   DEFAULT:  Rotating diamond + trailing dot + crosshair ticks
- *   HOVER:    Diamond morphs to circle, expands, shows action label
- *   CLICK:    Pulse shockwave + particle burst
- *
- * All direct fill/stroke colors (no mix-blend-mode) for reliability.
+ * The effect listener dependencies are stabilized to prevent
+ * re-registration bugs.
  */
 
 interface Particle {
@@ -35,19 +34,18 @@ export default function PointerFollower() {
   const [rotation, setRotation] = useState(0);
   const lastHoverRef = useRef(false);
   const rafRef = useRef<number>(0);
+  const visibleRef = useRef(false);
 
   const pointerX = useMotionValue(-100);
   const pointerY = useMotionValue(-100);
 
-  // Trailing dot — gentle lag
   const trailX = useSpring(pointerX, { stiffness: 60, damping: 14 });
   const trailY = useSpring(pointerY, { stiffness: 60, damping: 14 });
 
-  // Core diamond — fast precision
   const coreX = useSpring(pointerX, { stiffness: 600, damping: 34 });
   const coreY = useSpring(pointerY, { stiffness: 600, damping: 34 });
 
-  // Slow rotation of the diamond
+  // Slow rotation
   useEffect(() => {
     if (reduced || isTouch) return;
     let angle = 0;
@@ -60,13 +58,12 @@ export default function PointerFollower() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [reduced, isTouch]);
 
-  // Click handler — pulse + particles
+  // Click handler
   const handleClick = useCallback(() => {
     if (reduced) return;
     setClickPulse(true);
     setTimeout(() => setClickPulse(false), 700);
 
-    // Spawn 6 particles
     const px = pointerX.get();
     const py = pointerY.get();
     const newParticles: Particle[] = [];
@@ -84,6 +81,7 @@ export default function PointerFollower() {
     setTimeout(() => setParticles([]), 500);
   }, [reduced, pointerX, pointerY]);
 
+  // Event listeners — registered ONCE with stable refs
   useEffect(() => {
     const touchMQ = window.matchMedia('(pointer: coarse)');
     if (touchMQ.matches) { setIsTouch(true); return; }
@@ -91,15 +89,27 @@ export default function PointerFollower() {
     const onPointerMove = (e: PointerEvent) => {
       pointerX.set(e.clientX);
       pointerY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+        // Only hide system cursor AFTER custom cursor is confirmed visible
+        document.body.style.cursor = 'none';
+      }
     };
-    const onMouseEnter = () => setIsVisible(true);
-    const onMouseLeave = () => setIsVisible(false);
+    const onMouseLeave = () => {
+      setIsVisible(false);
+      document.body.style.cursor = '';
+    };
+    const onMouseEnter = () => {
+      if (visibleRef.current) {
+        setIsVisible(true);
+        document.body.style.cursor = 'none';
+      }
+    };
 
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const el = target?.closest('a, button, [role="button"], input, textarea, select, [tabindex]');
-      const was = lastHoverRef.current;
       const isInter = !!el;
       lastHoverRef.current = isInter;
       setIsHovering(isInter);
@@ -131,8 +141,9 @@ export default function PointerFollower() {
       document.removeEventListener('mouseover', onMouseOver);
       document.removeEventListener('mouseout', onMouseOut);
       document.removeEventListener('click', handleClick);
+      document.body.style.cursor = '';
     };
-  }, [pointerX, pointerY, isVisible, handleClick]);
+  }, [pointerX, pointerY, handleClick]); // STABLE — no isVisible dependency
 
   if (reduced || isTouch) return null;
 
@@ -154,7 +165,6 @@ export default function PointerFollower() {
           }}
           transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          {/* Outer orbit ring */}
           <circle
             cx="24" cy="24" r={isHovering ? 18 : 14}
             fill="none"
@@ -163,9 +173,7 @@ export default function PointerFollower() {
             strokeOpacity={isHovering ? 0.2 : 0.1}
             strokeDasharray={isHovering ? '3 2' : '1 4'}
           />
-          {/* Dot */}
           <circle cx="24" cy="24" r={dotR} fill="#2c2c2c" fillOpacity={0.35} />
-          {/* Inner pip */}
           <circle cx="24" cy="24" r={1.2} fill="#2c2c2c" fillOpacity={0.6} />
         </motion.svg>
       </motion.div>
@@ -184,7 +192,6 @@ export default function PointerFollower() {
           transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <g transform={`rotate(${rotation} 18 18)`}>
-            {/* Diamond shape */}
             <polygon
               points={`18,${18 - diamondSize / 2} ${18 + diamondSize / 2},18 18,${18 + diamondSize / 2} ${18 - diamondSize / 2},18`}
               fill="#2c2c2c"
@@ -193,28 +200,20 @@ export default function PointerFollower() {
               strokeWidth={0.5}
               strokeOpacity={0.3}
             />
-            {/* Crosshair ticks — 4 short lines at 45° offsets */}
             {[
               [18, 18 - diamondSize / 2 - 3, 18, 18 - diamondSize / 2 - 1],
               [18, 18 + diamondSize / 2 + 1, 18, 18 + diamondSize / 2 + 3],
               [18 - diamondSize / 2 - 3, 18, 18 - diamondSize / 2 - 1, 18],
               [18 + diamondSize / 2 + 1, 18, 18 + diamondSize / 2 + 3, 18],
             ].map(([x1, y1, x2, y2], i) => (
-              <line
-                key={i}
-                x1={x1} y1={y1} x2={x2} y2={y2}
-                stroke="#2c2c2c"
-                strokeWidth={0.6}
-                strokeOpacity={0.4}
-              />
+              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2c2c2c" strokeWidth={0.6} strokeOpacity={0.4} />
             ))}
           </g>
-          {/* Center pip — always upright */}
           <circle cx="18" cy="18" r={isHovering ? 1.5 : 1} fill="#faf9f6" fillOpacity={0.9} />
         </motion.svg>
       </motion.div>
 
-      {/* Layer 3: Click pulse shockwave */}
+      {/* Layer 3: Click pulse */}
       <AnimatePresence>
         {clickPulse && (
           <motion.div
@@ -254,11 +253,7 @@ export default function PointerFollower() {
         style={{ x: trailX, y: trailY }}
       >
         <motion.div
-          animate={{
-            opacity: isVisible && isHovering ? 1 : 0,
-            x: 24,
-            y: -4,
-          }}
+          animate={{ opacity: isVisible && isHovering ? 1 : 0, x: 24, y: -4 }}
           transition={{ duration: 0.15 }}
           className="px-1.5 py-0.5 rounded-sm text-[8px] font-bold tracking-[0.12em] text-charcoal/60 bg-ivory/90 border border-charcoal/10"
           style={{ fontFamily: 'Public Sans, system-ui, sans-serif' }}

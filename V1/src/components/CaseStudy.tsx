@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import type { Project } from '../data/portfolio';
 import useReducedMotion from '../hooks/useReducedMotion';
@@ -114,7 +114,9 @@ export default function CaseStudy({ project }: { project: Project }) {
                   ))}
                 </div>
               </div>
-              <div className="flex items-center gap-5 pt-2 border-t border-hairline/60">
+
+              {/* Links row — Repository + Demo */}
+              <div className="flex flex-wrap items-center gap-5 pt-4 border-t border-hairline/60">
                 <motion.a
                   href={project.repository}
                   target="_blank"
@@ -126,6 +128,21 @@ export default function CaseStudy({ project }: { project: Project }) {
                 >
                   <Icon icon="solar:code-square-linear" width={16} />Repository
                 </motion.a>
+
+                {project.demoUrl && (
+                  <motion.a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ x: 3, color: '#8a8580' }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-charcoal min-h-[36px] outline-none"
+                    aria-label={`View ${project.title} live demo`}
+                  >
+                    <Icon icon="solar:square-top-down-linear" width={16} />Live Demo
+                  </motion.a>
+                )}
+
                 <span className={`inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider ${statusStyle[project.status]}`}>
                   <Icon icon={status.icon} width={12} />{status.label}
                 </span>

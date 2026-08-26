@@ -20,7 +20,7 @@ function TimelineDot({ status }: { status: 'current' | 'next' | 'exploring' }) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       animate={{
-        scale: isHovered && !reduced ? 1.15 : 1,
+        scale: 1,
         backgroundColor: isHovered ? '#f0ede8' : '#faf9f6',
         borderColor: isHovered ? 'rgba(138,133,128,0.4)' : '#e8e4df',
       }}
