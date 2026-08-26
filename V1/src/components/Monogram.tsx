@@ -41,7 +41,7 @@ export default function Monogram({ initials, size = 'lg' }: MonogramProps) {
       aria-label={`Monogram for ${initials}`}
     >
       <motion.span
-        animate={{ scale: isHovered && !reduced ? 1.05 : 1 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 0.15 }}
         className={sz.text}
       >

@@ -139,7 +139,8 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.25 }}
-            className="fixed inset-0 z-50 bg-ivory/[0.98] backdrop-blur-lg md:hidden"
+            className="fixed inset-0 z-50 md:hidden"
+            style={{ backgroundColor: 'rgba(250,249,246,0.98)', backdropFilter: 'blur(16px)' }}
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {navLinks.map((link, i) => (
@@ -150,7 +151,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: reduced ? 0 : i * 0.06, duration: 0.35, ease: [0.25, 0.1, 0.25, 1] as const }}
                   onClick={() => setMobileOpen(false)}
-                  whileHover={{ scale: 1.05, color: '#8a8580' }}
+                  whileHover={{ color: '#8a8580' }}
                   whileTap={{ scale: 0.95 }}
                   className="text-2xl font-medium text-charcoal tracking-wide outline-none"
                 >
@@ -161,7 +162,7 @@ export default function Navbar() {
                 initial={reduced ? {} : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: reduced ? 0 : 0.3 }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 p-2 text-stone outline-none min-h-[44px] min-w-[44px] flex items-center justify-center"

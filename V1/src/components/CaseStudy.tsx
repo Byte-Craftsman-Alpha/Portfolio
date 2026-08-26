@@ -105,7 +105,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                   {project.caseStudy.stack.map((tech) => (
                     <motion.span
                       key={tech}
-                      whileHover={{ scale: 1.05, backgroundColor: '#f0ede8' }}
+                      whileHover={{ backgroundColor: '#f0ede8' }}
                       whileTap={{ scale: 0.95 }}
                       className="inline-flex px-2.5 py-1 text-[11px] font-medium text-graphite bg-ivory-deep rounded-md border border-hairline cursor-default"
                     >

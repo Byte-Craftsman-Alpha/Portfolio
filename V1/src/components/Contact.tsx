@@ -38,7 +38,7 @@ function IconBox({ icon, isHovered }: { icon: string; isHovered: boolean }) {
     <motion.div
       animate={{
         borderColor: isHovered ? 'rgba(138,133,128,0.4)' : '#e8e4df',
-        scale: isHovered ? 1.05 : 1,
+        scale: 1,
       }}
       transition={{ duration: 0.15 }}
       className="w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0"

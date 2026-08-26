@@ -92,18 +92,18 @@ export default function PointerFollower() {
       if (!visibleRef.current) {
         visibleRef.current = true;
         setIsVisible(true);
-        // Only hide system cursor AFTER custom cursor is confirmed visible
-        document.body.style.cursor = 'none';
+        // Add CSS class to <html> to hide system cursor on ALL elements
+        document.documentElement.classList.add('custom-cursor-active');
       }
     };
     const onMouseLeave = () => {
       setIsVisible(false);
-      document.body.style.cursor = '';
+      document.documentElement.classList.remove('custom-cursor-active');
     };
     const onMouseEnter = () => {
       if (visibleRef.current) {
         setIsVisible(true);
-        document.body.style.cursor = 'none';
+        document.documentElement.classList.add('custom-cursor-active');
       }
     };
 
@@ -141,7 +141,7 @@ export default function PointerFollower() {
       document.removeEventListener('mouseover', onMouseOver);
       document.removeEventListener('mouseout', onMouseOut);
       document.removeEventListener('click', handleClick);
-      document.body.style.cursor = '';
+      document.documentElement.classList.remove('custom-cursor-active');
     };
   }, [pointerX, pointerY, handleClick]); // STABLE — no isVisible dependency
 

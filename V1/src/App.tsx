@@ -58,7 +58,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="bg-ivory text-charcoal min-h-screen font-sans antialiased">
-        {/* Global UI layers — OUTSIDE blur container so they're never blurred */}
+        {/* Global UI layers — completely outside any filtered container */}
         <PointerFollower />
         <KeyboardEffect />
         <ScrollProgress />
@@ -67,13 +67,17 @@ export default function App() {
         {/* Splash screen — fixed overlay, z-[100] */}
         <SplashScreen onComplete={handleSplashComplete} />
 
-        {/* Main content — ALWAYS in DOM, starts blurred, unblurs when splash completes */}
+        {/*
+          Main content.
+          CRITICAL: We do NOT use CSS `filter` here, even blur(0px).
+          CSS `filter` creates a new containing block, which breaks
+          `position: fixed` children (mobile menu, etc).
+          Instead, we use opacity only for the splash transition,
+          and SectionReveal handles per-section blur reveals.
+        */}
         <motion.div
-          initial={{ filter: 'blur(8px)', opacity: 0.15 }}
-          animate={{
-            filter: splashDone ? 'blur(0px)' : 'blur(8px)',
-            opacity: splashDone ? 1 : 0.15,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: splashDone ? 1 : 0 }}
           transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Navbar />

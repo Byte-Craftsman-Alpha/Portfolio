@@ -27,7 +27,7 @@ function TimelineDot({ status }: { status: 'current' | 'next' | 'exploring' }) {
       transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
       className="absolute left-0 top-1.5 w-6 h-6 rounded-full border flex items-center justify-center"
     >
-      <motion.div animate={{ scale: isHovered ? 1.1 : 1 }} transition={{ duration: 0.15 }}>
+      <motion.div animate={{ scale: 1 }} transition={{ duration: 0.15 }}>
         <Icon icon={statusIcon[status]} width={12} className="text-taupe" />
       </motion.div>
     </motion.div>

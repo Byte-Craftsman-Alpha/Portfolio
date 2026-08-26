@@ -159,7 +159,7 @@ export default function ContributionGrid() {
             {stats && !loading && (
               <motion.button
                 onClick={refresh}
-                whileHover={{ scale: 1.03, borderColor: '#8a8580', color: '#2c2c2c' }}
+                whileHover={{ borderColor: '#8a8580', color: '#2c2c2c' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-stone border border-hairline rounded-lg min-h-[36px] outline-none"
@@ -199,7 +199,7 @@ export default function ContributionGrid() {
               </p>
               <motion.button
                 onClick={refresh}
-                whileHover={{ scale: 1.03, borderColor: '#8a8580' }}
+                whileHover={{ borderColor: '#8a8580' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
                 className="px-4 py-2 text-xs font-medium text-charcoal border border-hairline rounded-lg min-h-[36px] outline-none"
