@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #faf9f6;
+  --color-ivory-deep: #f3f1ed;
+  --color-charcoal: #2c2c2c;
+  --color-stone: #6b6b6b;
+  --color-taupe: #8a8580;
+  --color-graphite: #3d3d3d;
+  --color-hairline: #e8e4df;
+  --color-surface: #f3f1ed;
+  --color-surface-warm: #eee9e3;
+  --font-sans: 'Public Sans', system-ui, sans-serif;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+::selection {
+  background-color: #e8e4df;
+  color: #2c2c2c;
+}
+
+:focus-visible {
+  outline: 2px solid #6b6b6b;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+body {
+  font-family: 'Public Sans', system-ui, sans-serif;
+  background-color: #faf9f6;
+  color: #2c2c2c;
+}
+
+/* On fine-pointer devices without reduced-motion, hide default cursor
+   so the pointer follower (PointerFollower.tsx) becomes the primary cursor.
+   We keep the cursor for text inputs so text selection still works. */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body,
+  p, h1, h2, h3, h4, h5, h6,
+  span, div, section, article, nav, main, footer, header,
+  a, button, [role="button"], [tabindex],
+  svg, g, rect, circle, line, path {
+    cursor: none !important;
+  }
+  input, textarea, select, [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
