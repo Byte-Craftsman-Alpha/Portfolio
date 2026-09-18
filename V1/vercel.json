@@ -20,5 +20,27 @@
         { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/team_paradox",
+      "destination": "https://www.teamparadox.in/",
+      "permanent": true
+    },
+    {
+      "source": "/team_paradox/:path*",
+      "destination": "https://www.teamparadox.in/",
+      "permanent": true
+    },
+    {
+      "source": "/Portfolio/:path*",
+      "destination": "https://aditya.teamparadox.in/",
+      "permanent": true
+    },
+    {
+      "source": "/Portfolio",
+      "destination": "https://aditya.teamparadox.in/",
+      "permanent": true
+    }
   ]
 }
