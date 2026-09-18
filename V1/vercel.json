@@ -23,6 +23,11 @@
   ],
   "redirects": [
     {
+      "source": "/team_paradox/",
+      "destination": "https://www.teamparadox.in/",
+      "permanent": true
+    },
+    {
       "source": "/team_paradox",
       "destination": "https://www.teamparadox.in/",
       "permanent": true
