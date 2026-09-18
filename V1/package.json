@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "node scripts/fetch-contributions.cjs && tsc -b && vite build",
     "build:only": "tsc -b && vite build",
+    "test:seo": "bash scripts/seo-smoke.sh",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/public-sans": "^5.3.0",
     "@iconify/react": "^6.0.2",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
     "@tailwindcss/vite": "^4.2.1",
     "framer-motion": "^12.43.0",
     "lucide-react": "^0.577.0",

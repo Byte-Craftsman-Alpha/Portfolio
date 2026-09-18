@@ -1,0 +1,31 @@
+# Aditya Chaudhari
+> Python-led full-stack engineer based in Gorakhpur, Uttar Pradesh, India.
+> Member and Co-Leader of Team Paradox (https://www.teamparadox.in/).
+
+## Overview
+- Personal Portfolio: https://aditya.teamparadox.in/
+- Studio Hub: https://www.teamparadox.in/
+- Team Profile: https://www.teamparadox.in/team/aditya
+- GitHub: https://github.com/Byte-Craftsman-Alpha
+- LinkedIn: https://www.linkedin.com/in/byte-craftsman-alpha/
+- Email: aditya@teamparadox.in
+
+## Core Focus & Competencies
+- Python Backend Engineering: Flask, FastAPI, WebSockets, Socket.IO, session state architectures.
+- Campus & Mobile Systems: EduPortal campus OS (PWA and TWA packaging for Android).
+- Browser Automation & Scraping: Selenium, headless Chromium DOM automation, session rotation, captcha handling.
+- Computer Vision & Edge: OpenCV, image preprocessing, document parsing pipelines.
+- Database & Data Ingestion: SQLite relational modeling, streaming Excel/CSV-to-SQLite loaders.
+
+## Primary Systems & Projects
+- EduPortal: Campus operating system / student portal for DDU Gorakhpur, integrating attendance, results, notices, syllabus, and administrative workflows.
+- Local-Messaging-App: LAN-based real-time socket communication system with zero external internet dependencies.
+- Road-Maintenance-System: Civic infrastructure complaint management with role-based routing and status tracking.
+- Automated Result Scraper: Resilient university scraping engine handling session state, dynamic DOM, and rate limits.
+- Excel-to-SQLite: Streaming data migration pipeline transforming messy tabular spreadsheets into structured, normalized relational databases.
+
+## Affiliation & Entity Disambiguation
+- Affiliation: Team Paradox (https://www.teamparadox.in/)
+- Location: Gorakhpur, Uttar Pradesh, India
+- Not affiliated with any esports or gaming teams. Team Paradox is a student technology and product studio.
+

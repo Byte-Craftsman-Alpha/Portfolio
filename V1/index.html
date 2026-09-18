@@ -1,44 +1,304 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aditya Chaudhari — Python-Led Full-Stack Engineer | Byte-Craftsman-Alpha</title>
-    <meta name="description" content="Portfolio of Aditya Chaudhari (Byte-Craftsman-Alpha) — a B.Tech IT student and Python-led full-stack developer building practical systems across backend/API, real-time communication, browser automation, computer vision, and more." />
-    <meta property="og:title" content="Aditya Chaudhari — Python-Led Full-Stack Engineer" />
-    <meta property="og:description" content="Practical engineer building useful systems across backend/API, real-time communication, browser automation, computer vision, data ingestion, and civic technology. GitHub: Byte-Craftsman-Alpha." />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <title>Aditya Chaudhari — Python Full-Stack Engineer, Gorakhpur</title>
+    <meta
+      name="description"
+      content="Portfolio of Aditya Chaudhari — Python-led full-stack engineer at Team Paradox in Gorakhpur. Building EduPortal, backend APIs, real-time systems, and automation."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://aditya.teamparadox.in/" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
-    <script data-arena-recording="true">(function(){
-"use strict";
-var SK="__arena_rec",RRWEB_CDN="https://cdn.jsdelivr.net/npm/rrweb@2.0.0-alpha.4/dist/rrweb.min.js";
-var MAX_RECORDING_MS=600000,MAX_RRWEB_EVENTS=30000,MAX_INTERACTIONS=5000,MAX_CURSOR_POINTS=10000,recStopped=false;
-var stored=null;try{var raw=sessionStorage.getItem(SK);if(raw)stored=JSON.parse(raw);}catch(ex){}
-var meta=stored?stored.m||null:null,rrwebEvents=stored?stored.r||[]:[],rrwebStarted=false,startTime=stored?stored.st||Date.now():Date.now();
-var interactions=stored?stored.i||[]:[],cursorPath=stored?stored.c||[]:[],lastCursorSample=0,lastScrollSample=0;
-var pageHeight=document.documentElement.scrollHeight;
-var viewport={width:window.innerWidth,height:window.innerHeight};
-function isCapped(){if(recStopped)return true;if(Date.now()-startTime>=MAX_RECORDING_MS){recStopped=true;return true;}return false;}
-function persist(){try{var d=JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime});sessionStorage.setItem(SK,d);}catch(ex){rrwebEvents=rrwebEvents.slice(Math.floor(rrwebEvents.length/2));try{sessionStorage.setItem(SK,JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime}));}catch(ex2){}}}
-setInterval(persist,5000);
-window.addEventListener("resize",function(){viewport={width:window.innerWidth,height:window.innerHeight};pageHeight=document.documentElement.scrollHeight;});
-document.addEventListener("click",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var el=e.target;var tag=el.tagName?el.tagName.toLowerCase():"";var text=(el.textContent||"").trim().substring(0,80);var classes=el.className&&typeof el.className==="string"?el.className.substring(0,120):"";interactions.push({type:"click",t:Date.now()-startTime,x:Math.round(e.clientX),y:Math.round(e.clientY),element:{tag:tag,text:text,classes:classes}});},true);
-window.addEventListener("scroll",function(){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var now=Date.now();if(now-lastScrollSample<200)return;lastScrollSample=now;var scrollY=Math.round(window.scrollY||window.pageYOffset||0);var depthPct=pageHeight>viewport.height?Math.min(100,Math.round(((scrollY+viewport.height)/pageHeight)*100)):100;interactions.push({type:"scroll",t:now-startTime,y:scrollY,depth_pct:depthPct});},{passive:true});
-document.addEventListener("mousemove",function(e){if(isCapped()||cursorPath.length>=MAX_CURSOR_POINTS)return;var now=Date.now();if(now-lastCursorSample<250)return;lastCursorSample=now;cursorPath.push([Math.round(e.clientX),Math.round(e.clientY),now-startTime]);},{passive:true});
-document.addEventListener("keydown",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;if(e.target&&(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))return;interactions.push({type:"keydown",t:Date.now()-startTime,key:e.key});},true);
-function buildAnalytics(){if(!meta)return null;var ph=document.documentElement.scrollHeight;var maxScroll=0,clickElements={},firstClick=null,firstScroll=null,totalDistance=0;for(var i=0;i<interactions.length;i++){var ev=interactions[i];if(ev.type==="scroll"){if(ev.depth_pct>maxScroll)maxScroll=ev.depth_pct;if(!firstScroll)firstScroll=ev.t;}if(ev.type==="click"){if(!firstClick)firstClick=ev.t;var key=ev.element.tag+":"+ev.element.text.substring(0,30);clickElements[key]=true;}}for(var j=1;j<cursorPath.length;j++){var dx=cursorPath[j][0]-cursorPath[j-1][0];var dy=cursorPath[j][1]-cursorPath[j-1][1];totalDistance+=Math.sqrt(dx*dx+dy*dy);}var duration=Date.now()-startTime;var clickHeatmap=[];for(var k=0;k<interactions.length;k++){if(interactions[k].type==="click")clickHeatmap.push([interactions[k].x,interactions[k].y]);}return{generation_id:meta.generationId,tournament_id:meta.tournamentId,started_at:new Date(startTime).toISOString(),ended_at:new Date().toISOString(),duration_ms:duration,viewport:viewport,page_height:ph,interactions:interactions,cursor_path:cursorPath,click_heatmap:clickHeatmap,summary:{total_clicks:clickHeatmap.length,total_scrolls:interactions.filter(function(e){return e.type==="scroll";}).length,max_scroll_depth_pct:maxScroll,unique_elements_clicked:Object.keys(clickElements).length,time_to_first_click_ms:firstClick,time_to_first_scroll_ms:firstScroll,cursor_distance_px:Math.round(totalDistance),active_time_ms:duration}};}
-function loadRrweb(){if(rrwebStarted)return;rrwebStarted=true;var s=document.createElement("script");s.src=RRWEB_CDN;s.onload=function(){var rec=(window.rrweb&&window.rrweb.record)||window.rrwebRecord;if(!rec)return;rec({emit:function(event){if(rrwebEvents.length>=MAX_RRWEB_EVENTS||isCapped())return;rrwebEvents.push(event);}});};s.onerror=function(){};document.head.appendChild(s);}
-window.addEventListener("message",function(e){if(!e.data||typeof e.data.type!=="string")return;if(e.data.type==="arena:init"){if(!meta)startTime=Date.now();meta={generationId:e.data.generationId||e.data.modelId,tournamentId:e.data.tournamentId};persist();loadRrweb();if(e.source)e.source.postMessage({type:"arena:init-ack",generationId:meta.generationId},"*");}if(e.data.type==="arena:flush"){var resp={type:"arena:recording-data",generationId:meta?meta.generationId:null,rrwebEvents:rrwebEvents,analytics:buildAnalytics()};try{sessionStorage.removeItem(SK);}catch(ex){}if(e.source)e.source.postMessage(resp,"*");}});
-loadRrweb();
-})();</script>
-  <script data-arena-views="true">(function(){var isTop=false;try{isTop=window.self===window.top;}catch(e){}if(!isTop)return;window.__ARENA_META={generationId:"glm-5.3",tournamentId:"c4f45b06-cf53-44b2-b92a-44107f7df7cc"};var payload={tournamentId:"c4f45b06-cf53-44b2-b92a-44107f7df7cc",modelId:"glm-5.3"};try{var r=document.referrer;if(r){var u=new URL(r);payload.referrerDomain=u.hostname;}}catch(e){}try{var vid=null;try{vid=localStorage.getItem('arena_vid');}catch(e){}if(!vid){vid=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,32);try{localStorage.setItem('arena_vid',vid);}catch(e){}}if(vid)payload.viewerId=vid;}catch(e){}try{fetch("https://www.designarena.ai/api/agon/page-views",{"method":"POST","headers":{"Content-Type":"application/json"},"body":JSON.stringify(payload),"keepalive":true});}catch(e){}})();</script>
-</head>
-  <body>
-    <div id="root"></div>
+    <meta property="og:site_name" content="Team Paradox" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content="Aditya Chaudhari — Python Full-Stack Engineer, Gorakhpur" />
+    <meta
+      property="og:description"
+      content="Python-led full-stack engineer and co-leader at Team Paradox in Gorakhpur. Building EduPortal, backend APIs, real-time systems, and automation."
+    />
+    <meta property="og:url" content="https://aditya.teamparadox.in/" />
+    <meta property="og:image" content="https://aditya.teamparadox.in/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aditya Chaudhari — Python Full-Stack Engineer, Gorakhpur" />
+    <meta
+      name="twitter:description"
+      content="Python-led full-stack engineer and co-leader at Team Paradox in Gorakhpur. Building EduPortal, backend APIs, real-time systems, and automation."
+    />
+    <meta name="twitter:image" content="https://aditya.teamparadox.in/og-image.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Person JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://aditya.teamparadox.in/#person",
+      "name": "Aditya Chaudhari",
+      "alternateName": "Byte-Craftsman-Alpha",
+      "url": "https://aditya.teamparadox.in/",
+      "image": "https://aditya.teamparadox.in/og-image.png",
+      "email": "aditya@teamparadox.in",
+      "jobTitle": "Python-led full-stack engineer",
+      "affiliation": {
+        "@type": "Organization",
+        "@id": "https://www.teamparadox.in/#org",
+        "name": "Team Paradox",
+        "url": "https://www.teamparadox.in/"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Gorakhpur",
+        "addressRegion": "Uttar Pradesh",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/Byte-Craftsman-Alpha",
+        "https://www.linkedin.com/in/byte-craftsman-alpha/",
+        "https://www.teamparadox.in/team/aditya"
+      ],
+      "knowsAbout": [
+        "Python",
+        "Flask",
+        "FastAPI",
+        "WebSockets",
+        "Socket.IO",
+        "Selenium",
+        "OpenCV",
+        "PWA",
+        "TWA",
+        "SQLite",
+        "Data Ingestion"
+      ]
+    }
+    </script>
+  </head>
+  <body class="bg-[#faf9f6] text-[#2c2c2c] antialiased">
+    <div id="root">
+      <!-- Semantic Static HTML for Search Engine Crawlers & Fast First Paint -->
+      <header class="border-b border-[#e8e4df] py-4 px-6 max-w-6xl mx-auto flex items-center justify-between">
+        <a href="https://aditya.teamparadox.in/" class="text-sm font-semibold tracking-wide text-[#2c2c2c]">Aditya Chaudhari</a>
+        <nav class="flex items-center gap-6 text-xs uppercase tracking-wider text-[#8a8580]" aria-label="Primary Navigation">
+          <a href="#work" class="hover:text-[#2c2c2c]">Work</a>
+          <a href="#capabilities" class="hover:text-[#2c2c2c]">Capabilities</a>
+          <a href="#principles" class="hover:text-[#2c2c2c]">Principles</a>
+          <a href="https://www.teamparadox.in/" target="_blank" rel="noopener noreferrer" class="hover:text-[#2c2c2c]">Studio Hub</a>
+          <a href="#contact" class="hover:text-[#2c2c2c]">Contact</a>
+        </nav>
+      </header>
+
+      <main class="max-w-6xl mx-auto px-6 py-16">
+        <!-- Hero Section -->
+        <section id="hero" class="mb-20" aria-label="Introduction">
+          <p class="text-[11px] uppercase tracking-[0.2em] text-[#8a8580] mb-3">Portfolio &amp; Engineering Systems</p>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#2c2c2c] tracking-tight mb-4">Aditya Chaudhari</h1>
+          <p class="text-xl text-[#3d3d3d] font-medium mb-2">
+            Python-Led Full-Stack Engineer
+          </p>
+          <p class="text-sm text-[#8a8580] mb-4 tracking-wide">
+            Gorakhpur, Uttar Pradesh, India
+          </p>
+          <p class="text-sm text-[#6b6b6b] mb-8 leading-relaxed max-w-2xl">
+            Aditya Chaudhari is a member of <a href="https://www.teamparadox.in/" class="text-[#2c2c2c] font-medium underline underline-offset-4">Team Paradox</a>, Gorakhpur. Team profile: <a href="https://www.teamparadox.in/team/aditya" class="text-[#2c2c2c] font-medium underline underline-offset-4">www.teamparadox.in/team/aditya</a>.
+          </p>
+          <div class="w-12 h-px bg-[#e8e4df] mb-8"></div>
+          <p class="text-base sm:text-lg text-[#6b6b6b] leading-relaxed max-w-2xl mb-8">
+            A practical engineer building useful systems — from backend APIs and real-time messaging to browser automation, computer vision, and civic technology.
+          </p>
+          <div class="flex flex-wrap gap-4 text-sm font-medium">
+            <a href="https://github.com/Byte-Craftsman-Alpha" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-[#2c2c2c] text-[#faf9f6] rounded-lg">GitHub</a>
+            <a href="https://www.linkedin.com/in/byte-craftsman-alpha" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 border border-[#e8e4df] text-[#2c2c2c] rounded-lg">LinkedIn</a>
+            <a href="https://www.teamparadox.in/team/aditya" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 border border-[#e8e4df] text-[#2c2c2c] rounded-lg">Team Paradox Profile</a>
+          </div>
+        </section>
+
+        <!-- Proof Metrics Section -->
+        <section id="metrics" class="py-12 border-t border-[#e8e4df] mb-20" aria-label="Metrics">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="p-4 border border-[#e8e4df] rounded-xl bg-[#f3f1ed]/50">
+              <span class="block text-3xl font-semibold text-[#2c2c2c]">9+</span>
+              <span class="text-xs text-[#8a8580] uppercase tracking-wider">Repositories</span>
+            </div>
+            <div class="p-4 border border-[#e8e4df] rounded-xl bg-[#f3f1ed]/50">
+              <span class="block text-3xl font-semibold text-[#2c2c2c]">5</span>
+              <span class="text-xs text-[#8a8580] uppercase tracking-wider">Languages</span>
+            </div>
+            <div class="p-4 border border-[#e8e4df] rounded-xl bg-[#f3f1ed]/50">
+              <span class="block text-3xl font-semibold text-[#2c2c2c]">8</span>
+              <span class="text-xs text-[#8a8580] uppercase tracking-wider">Technical Domains</span>
+            </div>
+            <div class="p-4 border border-[#e8e4df] rounded-xl bg-[#f3f1ed]/50">
+              <span class="block text-3xl font-semibold text-[#2c2c2c]">5</span>
+              <span class="text-xs text-[#8a8580] uppercase tracking-wider">Shipped Projects</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="work" class="py-12 border-t border-[#e8e4df] mb-20" aria-label="Projects">
+          <p class="text-[10px] text-[#8a8580] uppercase tracking-[0.2em] mb-2">Systems &amp; Code</p>
+          <h2 class="text-3xl font-semibold text-[#2c2c2c] tracking-tight mb-8">Shipped Work &amp; Case Studies</h2>
+
+          <div class="space-y-12">
+            <!-- EduPortal -->
+            <article class="p-6 border border-[#e8e4df] rounded-2xl bg-[#f3f1ed]/30">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-2xl font-semibold text-[#2c2c2c]">Edu-Portal</h3>
+                <span class="text-xs text-[#8a8580] border border-[#e8e4df] px-2.5 py-1 rounded-full">Education · Shipped</span>
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4">
+                Education platform for structured learning delivery and campus student management at DDU Gorakhpur.
+              </p>
+              <div class="text-xs text-[#8a8580] mb-4">
+                <span class="font-medium text-[#3d3d3d]">Stack:</span> Python, Flask, SQLite, HTML5, CSS3, Bootstrap, PWA, TWA
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4 leading-relaxed">
+                Self-contained deployment with role-based routing for students and faculty. Monolith serving templated pages with zero external database dependencies. Case study on studio hub: <a href="https://www.teamparadox.in/work/eduportal" class="text-[#2c2c2c] underline">EduPortal Case Study</a>.
+              </p>
+              <div class="flex gap-4 text-xs font-medium">
+                <a href="https://github.com/Byte-Craftsman-Alpha/Edu-Portal" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">View Repository</a>
+                <a href="https://ietddugu.pythonanywhere.com/" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">Live Deployment</a>
+              </div>
+            </article>
+
+            <!-- Road-Maintenance-System -->
+            <article class="p-6 border border-[#e8e4df] rounded-2xl bg-[#f3f1ed]/30">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-2xl font-semibold text-[#2c2c2c]">Road-Maintenance-System</h3>
+                <span class="text-xs text-[#8a8580] border border-[#e8e4df] px-2.5 py-1 rounded-full">Civic Tech · Shipped</span>
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4">
+                Civic platform for reporting and tracking municipal road infrastructure issues with role routing and verification.
+              </p>
+              <div class="text-xs text-[#8a8580] mb-4">
+                <span class="font-medium text-[#3d3d3d]">Stack:</span> Python, Flask, SQLite, Bootstrap
+              </div>
+              <div class="flex gap-4 text-xs font-medium">
+                <a href="https://github.com/Byte-Craftsman-Alpha/Road-Maintenance-System" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">View Repository</a>
+                <a href="https://civicsetu.pythonanywhere.com/" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">Live Deployment</a>
+              </div>
+            </article>
+
+            <!-- Automated-result-scrapping -->
+            <article class="p-6 border border-[#e8e4df] rounded-2xl bg-[#f3f1ed]/30">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-2xl font-semibold text-[#2c2c2c]">Automated-result-scrapping</h3>
+                <span class="text-xs text-[#8a8580] border border-[#e8e4df] px-2.5 py-1 rounded-full">Automation · Shipped</span>
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4">
+                Headless browser automation pipeline extracting university examination results from legacy ASP.NET portals.
+              </p>
+              <div class="text-xs text-[#8a8580] mb-4">
+                <span class="font-medium text-[#3d3d3d]">Stack:</span> Python, Selenium, BeautifulSoup4, Pandas
+              </div>
+              <div class="flex gap-4 text-xs font-medium">
+                <a href="https://github.com/Byte-Craftsman-Alpha/Automated-result-scrapping" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">View Repository</a>
+              </div>
+            </article>
+
+            <!-- Local-Messaging-App -->
+            <article class="p-6 border border-[#e8e4df] rounded-2xl bg-[#f3f1ed]/30">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-2xl font-semibold text-[#2c2c2c]">Local-Messaging-App</h3>
+                <span class="text-xs text-[#8a8580] border border-[#e8e4df] px-2.5 py-1 rounded-full">Real-Time · Active</span>
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4">
+                Air-gapped peer-to-peer real-time communication tool running across local area networks without external server dependencies.
+              </p>
+              <div class="text-xs text-[#8a8580] mb-4">
+                <span class="font-medium text-[#3d3d3d]">Stack:</span> Python, Flask-SocketIO, WebSockets, Eventlet
+              </div>
+              <div class="flex gap-4 text-xs font-medium">
+                <a href="https://github.com/Byte-Craftsman-Alpha/Local-Messaging-App" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">View Repository</a>
+              </div>
+            </article>
+
+            <!-- EXCEL-TO-SQLITE -->
+            <article class="p-6 border border-[#e8e4df] rounded-2xl bg-[#f3f1ed]/30">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-2xl font-semibold text-[#2c2c2c]">EXCEL-TO-SQLITE</h3>
+                <span class="text-xs text-[#8a8580] border border-[#e8e4df] px-2.5 py-1 rounded-full">Data Tooling · Shipped</span>
+              </div>
+              <p class="text-sm text-[#6b6b6b] mb-4">
+                Automated tabular data migration tool that parses messy spreadsheets, infers schemas, and streams them into normalized SQLite databases.
+              </p>
+              <div class="text-xs text-[#8a8580] mb-4">
+                <span class="font-medium text-[#3d3d3d]">Stack:</span> Python, SQLite3, OpenPyXL, Pandas
+              </div>
+              <div class="flex gap-4 text-xs font-medium">
+                <a href="https://github.com/Byte-Craftsman-Alpha/EXCEL-TO-SQLITE" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] underline">View Repository</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Capabilities Section -->
+        <section id="capabilities" class="py-12 border-t border-[#e8e4df] mb-20" aria-label="Capabilities">
+          <p class="text-[10px] text-[#8a8580] uppercase tracking-[0.2em] mb-2">Expertise</p>
+          <h2 class="text-3xl font-semibold text-[#2c2c2c] tracking-tight mb-8">Technical Competencies</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-6 border border-[#e8e4df] rounded-xl">
+              <h3 class="font-semibold text-[#2c2c2c] mb-2">Backend &amp; API Engineering</h3>
+              <p class="text-sm text-[#6b6b6b] leading-relaxed">
+                Python (Flask, FastAPI), RESTful APIs, Session Management, SQLite, PostgreSQL, Authentication, Middleware.
+              </p>
+            </div>
+            <div class="p-6 border border-[#e8e4df] rounded-xl">
+              <h3 class="font-semibold text-[#2c2c2c] mb-2">Real-Time &amp; Concurrency</h3>
+              <p class="text-sm text-[#6b6b6b] leading-relaxed">
+                WebSockets, Socket.IO, Eventlet, LAN Socket Communication, Asynchronous Task Execution.
+              </p>
+            </div>
+            <div class="p-6 border border-[#e8e4df] rounded-xl">
+              <h3 class="font-semibold text-[#2c2c2c] mb-2">Browser Automation &amp; Scraping</h3>
+              <p class="text-sm text-[#6b6b6b] leading-relaxed">
+                Selenium, Headless Chromium, DOM Traversal, BeautifulSoup4, State Persistence, Robust Retries.
+              </p>
+            </div>
+            <div class="p-6 border border-[#e8e4df] rounded-xl">
+              <h3 class="font-semibold text-[#2c2c2c] mb-2">Mobile &amp; Campus Systems</h3>
+              <p class="text-sm text-[#6b6b6b] leading-relaxed">
+                Progressive Web Apps (PWA), Trusted Web Activity (TWA) Android Packaging, Offline Assets, Responsive Layouts.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-12 border-t border-[#e8e4df]" aria-label="Contact">
+          <p class="text-[10px] text-[#8a8580] uppercase tracking-[0.2em] mb-2">Inquiries &amp; Collaboration</p>
+          <h2 class="text-3xl font-semibold text-[#2c2c2c] tracking-tight mb-4">Contact</h2>
+          <p class="text-sm text-[#6b6b6b] mb-6 max-w-xl leading-relaxed">
+            Direct collaboration, engineering discussions, or product inquiries for Team Paradox.
+          </p>
+          <div class="space-y-2 text-sm">
+            <p><span class="text-[#8a8580]">Email:</span> <a href="mailto:aditya@teamparadox.in" class="text-[#2c2c2c] font-medium underline">aditya@teamparadox.in</a></p>
+            <p><span class="text-[#8a8580]">GitHub:</span> <a href="https://github.com/Byte-Craftsman-Alpha" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] font-medium underline">Byte-Craftsman-Alpha</a></p>
+            <p><span class="text-[#8a8580]">Studio Hub:</span> <a href="https://www.teamparadox.in/" target="_blank" rel="noopener noreferrer" class="text-[#2c2c2c] font-medium underline">teamparadox.in</a></p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t border-[#e8e4df] py-8 px-6 text-xs text-[#8a8580] text-center">
+        <p>Aditya Chaudhari · Co-Leader @ <a href="https://www.teamparadox.in/" class="underline">Team Paradox</a> · Gorakhpur, Uttar Pradesh, India</p>
+      </footer>
+    </div>
+
+    <!-- No-Script Fallback for Complete Non-JS Indexing -->
+    <noscript>
+      <div class="p-6 max-w-3xl mx-auto bg-amber-50 text-stone-800 my-8 rounded-lg border border-amber-200">
+        <h2 class="font-bold text-lg mb-2">JavaScript Required for Interactive Features</h2>
+        <p class="text-sm">This portfolio features full server-rendered semantic HTML accessible to all search engines and assistive tools. JavaScript enhances animations, activity charts, and theme transitions.</p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

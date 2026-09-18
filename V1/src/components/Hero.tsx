@@ -94,8 +94,30 @@ export default function Hero() {
               {personal.role}
             </motion.p>
 
-            <motion.p {...anim(0.2)} className="text-sm text-taupe mb-8 tracking-wide">
+            <motion.p {...anim(0.2)} className="text-sm text-taupe mb-3 tracking-wide">
               {personal.tagline}
+            </motion.p>
+
+            <motion.p {...anim(0.24)} className="text-sm text-stone mb-8 leading-relaxed">
+              Aditya Chaudhari is a member of{' '}
+              <a
+                href="https://www.teamparadox.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-charcoal font-medium underline underline-offset-4 hover:text-black transition-colors"
+              >
+                Team Paradox
+              </a>
+              , Gorakhpur. Team profile:{' '}
+              <a
+                href="https://www.teamparadox.in/team/aditya"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-charcoal font-medium underline underline-offset-4 hover:text-black transition-colors"
+              >
+                www.teamparadox.in/team/aditya
+              </a>
+              .
             </motion.p>
 
             <motion.div {...anim(0.28)} className="w-12 h-px bg-hairline mb-8" aria-hidden="true" />

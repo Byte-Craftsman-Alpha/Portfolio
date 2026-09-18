@@ -1,0 +1,57 @@
+# Team Paradox — hostname contract v1
+User-agent: *
+Allow: /
+
+# Keep app internals out of crawl queues
+Disallow: /api/
+Disallow: /system
+
+# Search engines (explicit allow — never blanket-block these)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Brave
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# AI *search* (citations in ChatGPT / Perplexity / Claude / Copilot)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+Sitemap: https://aditya.teamparadox.in/sitemap.xml
+

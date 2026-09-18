@@ -50,7 +50,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-6 border-t border-hairline flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-[11px] text-taupe">{currentYear} {personal.name}. Built with care.</p>
+          <p className="text-[11px] text-taupe">{currentYear} {personal.name}. Member of <a href="https://www.teamparadox.in/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-charcoal">Team Paradox</a> (<a href="https://www.teamparadox.in/team/aditya" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-charcoal">Profile</a>) · Gorakhpur, India.</p>
           <p className="text-[11px] text-taupe">No invented credentials. Honest labeling throughout.</p>
         </div>
       </div>
