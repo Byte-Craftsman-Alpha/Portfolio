@@ -18,10 +18,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+/* Removed html { scroll-behavior: smooth } to prevent Lenis conflict */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -72,4 +69,19 @@ body {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Smooth compositor-only spin for custom diamond cursor */
+@keyframes cursor-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-cursor-spin {
+  transform-origin: 18px 18px;
+  animation: cursor-spin 20s linear infinite;
 }

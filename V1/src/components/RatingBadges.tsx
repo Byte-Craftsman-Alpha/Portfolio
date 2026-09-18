@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import useReducedMotion from '../hooks/useReducedMotion';
@@ -161,7 +161,7 @@ function FilterPill({ label, isActive, onClick }: { label: string; isActive: boo
 
 // ─── Rating Badge ─────────────────────────────────────────────────────
 
-function RatingBadge({ skill, index, isInView, reduced }: {
+const RatingBadge = memo(function RatingBadge({ skill, index, isInView, reduced }: {
   skill: SkillRating; index: number; isInView: boolean; reduced: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -187,7 +187,7 @@ function RatingBadge({ skill, index, isInView, reduced }: {
 
   return (
     <motion.div
-      initial={reduced ? {} : { opacity: 0, y: 20, scale: 0.96 }}
+      initial={reduced ? {} : { opacity: 0, y: 20 }}
       animate={isInView ? {
         opacity: 1, y: 0,
         scale: isPressed ? 0.98 : 1,
@@ -288,7 +288,7 @@ function RatingBadge({ skill, index, isInView, reduced }: {
       </span>
     </motion.div>
   );
-}
+});
 
 // ─── Interactive summary category tag ─────────────────────────────────
 
@@ -382,13 +382,13 @@ export default function RatingBadges() {
         <SectionReveal delay={0.1}>
           <SummaryBar skills={filter === 'all' ? SKILLS : filteredSkills} isInView={isInView} reduced={reduced} />
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             <motion.div
               key={filter + '-skills'}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10"
             >
               {filteredSkills.map((skill, i) => (
@@ -400,13 +400,13 @@ export default function RatingBadges() {
           {filteredLearning.length > 0 && (
             <div className="mt-8 pt-8 border-t border-hairline">
               <p className="text-[10px] text-taupe uppercase tracking-[0.2em] mb-4">Currently Learning</p>
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="sync">
                 <motion.div
                   key={filter + '-learning'}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
                 >
                   {filteredLearning.map((skill, i) => (

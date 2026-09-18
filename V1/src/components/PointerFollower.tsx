@@ -5,12 +5,11 @@ import useReducedMotion from '../hooks/useReducedMotion';
 /**
  * Premium morphing cursor — editorial precision instrument.
  *
- * FIX: The cursor now ALWAYS shows the system cursor as fallback.
- * The custom cursor only hides the system cursor once it's confirmed
- * visible (after first mouse move). This prevents the "no cursor" bug.
- *
- * The effect listener dependencies are stabilized to prevent
- * re-registration bugs.
+ * Performance-optimized:
+ * - Rotation driven by CSS compositor keyframes (zero rAF re-renders)
+ * - Position driven purely by Framer Motion springs on GPU transforms
+ * - Hover state only triggers React state updates when the target actually changes
+ * - Zero React state updates per pointermove
  */
 
 interface Particle {
@@ -31,9 +30,9 @@ export default function PointerFollower() {
   const [hoverLabel, setHoverLabel] = useState('');
   const [clickPulse, setClickPulse] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [rotation, setRotation] = useState(0);
+
   const lastHoverRef = useRef(false);
-  const rafRef = useRef<number>(0);
+  const lastLabelRef = useRef('');
   const visibleRef = useRef(false);
 
   const pointerX = useMotionValue(-100);
@@ -44,19 +43,6 @@ export default function PointerFollower() {
 
   const coreX = useSpring(pointerX, { stiffness: 600, damping: 34 });
   const coreY = useSpring(pointerY, { stiffness: 600, damping: 34 });
-
-  // Slow rotation
-  useEffect(() => {
-    if (reduced || isTouch) return;
-    let angle = 0;
-    const tick = () => {
-      angle += 0.3;
-      setRotation(angle % 360);
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [reduced, isTouch]);
 
   // Click handler
   const handleClick = useCallback(() => {
@@ -84,7 +70,10 @@ export default function PointerFollower() {
   // Event listeners — registered ONCE with stable refs
   useEffect(() => {
     const touchMQ = window.matchMedia('(pointer: coarse)');
-    if (touchMQ.matches) { setIsTouch(true); return; }
+    if (touchMQ.matches) {
+      setIsTouch(true);
+      return;
+    }
 
     const onPointerMove = (e: PointerEvent) => {
       pointerX.set(e.clientX);
@@ -96,10 +85,12 @@ export default function PointerFollower() {
         document.documentElement.classList.add('custom-cursor-active');
       }
     };
+
     const onMouseLeave = () => {
       setIsVisible(false);
       document.documentElement.classList.remove('custom-cursor-active');
     };
+
     const onMouseEnter = () => {
       if (visibleRef.current) {
         setIsVisible(true);
@@ -111,20 +102,37 @@ export default function PointerFollower() {
       const target = e.target as HTMLElement;
       const el = target?.closest('a, button, [role="button"], input, textarea, select, [tabindex]');
       const isInter = !!el;
-      lastHoverRef.current = isInter;
-      setIsHovering(isInter);
-
+      let label = '';
       if (isInter) {
         const tag = el?.tagName?.toLowerCase();
-        if (tag === 'a') setHoverLabel('OPEN');
-        else if (tag === 'button' || tag === 'input' || tag === 'select') setHoverLabel('CLICK');
-        else setHoverLabel('ACT');
+        if (tag === 'a') label = 'OPEN';
+        else if (tag === 'button' || tag === 'input' || tag === 'select') label = 'CLICK';
+        else label = 'ACT';
+      }
+
+      if (isInter !== lastHoverRef.current) {
+        lastHoverRef.current = isInter;
+        setIsHovering(isInter);
+      }
+      if (label !== lastLabelRef.current) {
+        lastLabelRef.current = label;
+        setHoverLabel(label);
       }
     };
-    const onMouseOut = () => {
-      lastHoverRef.current = false;
-      setIsHovering(false);
-      setHoverLabel('');
+
+    const onMouseOut = (e: MouseEvent) => {
+      const nextTarget = e.relatedTarget as HTMLElement | null;
+      const nextEl = nextTarget?.closest('a, button, [role="button"], input, textarea, select, [tabindex]');
+      if (!nextEl) {
+        if (lastHoverRef.current) {
+          lastHoverRef.current = false;
+          setIsHovering(false);
+        }
+        if (lastLabelRef.current !== '') {
+          lastLabelRef.current = '';
+          setHoverLabel('');
+        }
+      }
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
@@ -143,7 +151,7 @@ export default function PointerFollower() {
       document.removeEventListener('click', handleClick);
       document.documentElement.classList.remove('custom-cursor-active');
     };
-  }, [pointerX, pointerY, handleClick]); // STABLE — no isVisible dependency
+  }, [pointerX, pointerY, handleClick]);
 
   if (reduced || isTouch) return null;
 
@@ -154,11 +162,13 @@ export default function PointerFollower() {
     <>
       {/* Layer 1: Trailing dot with ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] will-change-transform"
         style={{ x: trailX, y: trailY, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.svg
-          width={48} height={48} viewBox="0 0 48 48"
+          width={48}
+          height={48}
+          viewBox="0 0 48 48"
           animate={{
             opacity: isVisible ? 1 : 0,
             scale: isHovering ? 1.3 : 1,
@@ -166,7 +176,9 @@ export default function PointerFollower() {
           transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <circle
-            cx="24" cy="24" r={isHovering ? 18 : 14}
+            cx="24"
+            cy="24"
+            r={isHovering ? 18 : 14}
             fill="none"
             stroke="#2c2c2c"
             strokeWidth={isHovering ? 0.8 : 0.4}
@@ -180,18 +192,20 @@ export default function PointerFollower() {
 
       {/* Layer 2: Core — rotating diamond + crosshair */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] will-change-transform"
         style={{ x: coreX, y: coreY, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.svg
-          width={36} height={36} viewBox="0 0 36 36"
+          width={36}
+          height={36}
+          viewBox="0 0 36 36"
           animate={{
             opacity: isVisible ? 1 : 0,
             scale: isHovering ? 1.25 : 1,
           }}
           transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <g transform={`rotate(${rotation} 18 18)`}>
+          <g className="animate-cursor-spin">
             <polygon
               points={`18,${18 - diamondSize / 2} ${18 + diamondSize / 2},18 18,${18 + diamondSize / 2} ${18 - diamondSize / 2},18`}
               fill="#2c2c2c"
@@ -249,7 +263,7 @@ export default function PointerFollower() {
 
       {/* Layer 5: Context label */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] will-change-transform"
         style={{ x: trailX, y: trailY }}
       >
         <motion.div

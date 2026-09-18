@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { personal } from '../data/portfolio';
 import { fetchContributions, type GitHubStats, type ContributionDay } from '../lib/github';
@@ -74,6 +74,8 @@ export default function ContributionGrid() {
   const [error, setError] = useState(false);
   const [progress, setProgress] = useState('');
   const [hovered, setHovered] = useState<GridDay | null>(null);
+  const hoveredRef = useRef<GridDay | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-40px' });
   const reduced = useReducedMotion();
@@ -109,28 +111,85 @@ export default function ContributionGrid() {
     if (isInView && !fetched.current) loadData();
   }, [isInView, loadData]);
 
-  const gridDays = stats ? toGrid(stats.contributions) : [];
-  const maxCount = Math.max(...gridDays.map((d) => d.count), 1);
+  const { gridDays, maxCount, weeks, monthLabels, totalW, totalH } = useMemo(() => {
+    const days = stats ? toGrid(stats.contributions) : [];
+    const max = Math.max(...days.map((d) => d.count), 1);
 
-  const weeks: GridDay[][] = [];
-  for (const d of gridDays) {
-    if (!weeks[d.week]) weeks[d.week] = [];
-    weeks[d.week].push(d);
-  }
-
-  const monthLabels: { label: string; week: number }[] = [];
-  let lastM = '';
-  for (const w of weeks) {
-    if (!w?.length) continue;
-    const m = new Date(w[0].date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short' });
-    if (m !== lastM) {
-      monthLabels.push({ label: m, week: w[0].week });
-      lastM = m;
+    const wks: GridDay[][] = [];
+    for (const d of days) {
+      if (!wks[d.week]) wks[d.week] = [];
+      wks[d.week].push(d);
     }
-  }
 
-  const svgW = weeks.length * STEP + 2;
-  const svgH = 7 * STEP + 2;
+    const months: { label: string; week: number }[] = [];
+    let lastM = '';
+    for (const w of wks) {
+      if (!w?.length) continue;
+      const m = new Date(w[0].date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short' });
+      if (m !== lastM) {
+        months.push({ label: m, week: w[0].week });
+        lastM = m;
+      }
+    }
+
+    const svgW = wks.length * STEP + 2;
+    const svgH = 7 * STEP + 2;
+    return {
+      gridDays: days,
+      maxCount: max,
+      weeks: wks,
+      monthLabels: months,
+      totalW: svgW + 34,
+      totalH: svgH + 21,
+    };
+  }, [stats]);
+
+  // Single pointer handler for the entire SVG (zero per-cell React listeners)
+  const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    if (reduced || !svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const scaleX = totalW / rect.width;
+    const scaleY = totalH / rect.height;
+    const svgX = (e.clientX - rect.left) * scaleX - 34;
+    const svgY = (e.clientY - rect.top) * scaleY - 19;
+
+    if (svgX < 0 || svgY < 0) {
+      if (hoveredRef.current !== null) {
+        hoveredRef.current = null;
+        setHovered(null);
+      }
+      return;
+    }
+
+    const wi = Math.floor(svgX / STEP);
+    const di = Math.floor(svgY / STEP);
+    const cellX = svgX - wi * STEP;
+    const cellY = svgY - di * STEP;
+
+    if (cellX > CELL || cellY > CELL || di < 0 || di > 6 || wi < 0 || wi >= weeks.length) {
+      if (hoveredRef.current !== null) {
+        hoveredRef.current = null;
+        setHovered(null);
+      }
+      return;
+    }
+
+    const day = weeks[wi]?.[di] || null;
+    if (day !== hoveredRef.current) {
+      hoveredRef.current = day;
+      setHovered(day);
+    }
+  }, [reduced, totalW, totalH, weeks]);
+
+  const handlePointerLeave = useCallback(() => {
+    if (hoveredRef.current !== null) {
+      hoveredRef.current = null;
+      setHovered(null);
+    }
+  }, []);
+
   const sourceLabel =
     stats?.source === 'build-time'
       ? 'Exact counts — fetched at build time from GitHub'
@@ -162,7 +221,7 @@ export default function ContributionGrid() {
                 whileHover={{ borderColor: '#8a8580', color: '#2c2c2c' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-stone border border-hairline rounded-lg min-h-[36px] outline-none"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium text-stone border border-hairline rounded-lg min-h-[36px] outline-none cursor-pointer"
                 aria-label="Refresh contribution data"
               >
                 <motion.span whileTap={{ rotate: -180 }} transition={{ duration: 0.3 }}>
@@ -246,15 +305,18 @@ export default function ContributionGrid() {
                 {timeAgo(stats.fetchedAt)}
               </p>
 
-              {/* Contribution grid SVG */}
+              {/* Contribution grid SVG with single pointermove listener */}
               <div className="overflow-x-auto scrollbar-hide -ml-8 pl-8 pr-2">
                 <svg
-                  width={svgW + 34}
-                  height={svgH + 21}
-                  viewBox={`0 0 ${svgW + 34} ${svgH + 21}`}
-                  className="block"
+                  ref={svgRef}
+                  width={totalW}
+                  height={totalH}
+                  viewBox={`0 0 ${totalW} ${totalH}`}
+                  className="block cursor-pointer"
                   role="img"
                   aria-label={`${stats.totalContributions} contributions in the last year`}
+                  onPointerMove={handlePointerMove}
+                  onPointerLeave={handlePointerLeave}
                 >
                   {/* Day-of-week labels */}
                   {[{ l: 'Mon', y: 1 }, { l: 'Wed', y: 3 }, { l: 'Fri', y: 5 }].map(({ l, y }) => (
@@ -284,7 +346,7 @@ export default function ContributionGrid() {
                     </text>
                   ))}
 
-                  {/* Contribution cells */}
+                  {/* Contribution cells — static SVG rects, zero per-cell listeners */}
                   {weeks.map((week) =>
                     week.map((day) => (
                       <rect
@@ -296,15 +358,28 @@ export default function ContributionGrid() {
                         rx={2}
                         ry={2}
                         fill={intensityFill(day.count, maxCount)}
-                        style={{ cursor: day.count > 0 ? 'pointer' : 'default' }}
-                        onMouseEnter={() => !reduced && setHovered(day)}
-                        onMouseLeave={() => setHovered(null)}
                       >
                         <title>
                           {formatCount(day.count)} on {formatDateLabel(day.date)}
                         </title>
                       </rect>
                     )),
+                  )}
+
+                  {/* Single hovered cell highlight overlay */}
+                  {hovered && (
+                    <rect
+                      x={hovered.week * STEP + 34 - 1}
+                      y={hovered.day * STEP + 19 - 1}
+                      width={CELL + 2}
+                      height={CELL + 2}
+                      rx={3}
+                      ry={3}
+                      fill="none"
+                      stroke="#2c2c2c"
+                      strokeWidth={1.2}
+                      pointerEvents="none"
+                    />
                   )}
                 </svg>
               </div>

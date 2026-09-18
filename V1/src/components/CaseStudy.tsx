@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import type { Project } from '../data/portfolio';
@@ -13,7 +13,7 @@ const statusConfig = {
 };
 const statusStyle = { shipped: 'text-charcoal', active: 'text-charcoal', fork: 'text-taupe', experiment: 'text-taupe', learning: 'text-taupe' };
 
-export default function CaseStudy({ project }: { project: Project }) {
+const CaseStudy = memo(function CaseStudy({ project }: { project: Project }) {
   const [expanded, setExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -77,7 +77,7 @@ export default function CaseStudy({ project }: { project: Project }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: reduced ? 0 : 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             className="overflow-hidden"
           >
             <div className="px-6 md:px-7 pb-6 md:pb-7 pt-4 border-t border-hairline">
@@ -153,4 +153,6 @@ export default function CaseStudy({ project }: { project: Project }) {
       </AnimatePresence>
     </motion.article>
   );
-}
+});
+
+export default CaseStudy;

@@ -22,6 +22,7 @@ import useReducedMotion from '../hooks/useReducedMotion';
 let audioCtx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 let compressor: DynamicsCompressorNode | null = null;
+let cachedNoiseBuffer: AudioBuffer | null = null;
 
 function initAudio() {
   if (!audioCtx) {
@@ -37,24 +38,22 @@ function initAudio() {
     compressor.attack.setValueAtTime(0.0005, audioCtx.currentTime);
     compressor.release.setValueAtTime(0.04, audioCtx.currentTime);
     masterGain.connect(compressor).connect(audioCtx.destination);
+
+    // Precompute a 0.1s noise buffer once and reuse across all keypresses
+    const len = Math.floor(audioCtx.sampleRate * 0.1);
+    cachedNoiseBuffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+    const d = cachedNoiseBuffer.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
   }
   if (audioCtx.state === 'suspended') audioCtx.resume();
-  return { ctx: audioCtx, out: masterGain! };
+  return { ctx: audioCtx, out: masterGain!, noise: cachedNoiseBuffer! };
 }
 
-// Helper: create a noise buffer
-function noiseBuffer(ctx: BaseAudioContext, duration: number): AudioBuffer {
-  const len = Math.floor(ctx.sampleRate * duration);
-  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  const d = buf.getChannelData(0);
-  for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-  return buf;
-}
-
-// Helper: connect noise burst through filter chain
+// Helper: connect noise burst through filter chain reusing precomputed noise buffer
 function noiseBurst(
   ctx: BaseAudioContext,
   out: AudioNode,
+  noiseBuf: AudioBuffer,
   now: number,
   startDelay: number,
   duration: number,
@@ -66,7 +65,7 @@ function noiseBurst(
 ) {
   const t = now + startDelay;
   const src = ctx.createBufferSource();
-  src.buffer = noiseBuffer(ctx, duration + 0.005);
+  src.buffer = noiseBuf;
 
   const bp = ctx.createBiquadFilter();
   bp.type = filterType;
@@ -93,22 +92,17 @@ function noiseBurst(
 
 function playMechKey() {
   try {
-    const { ctx, out } = initAudio();
+    const { ctx, out, noise } = initAudio();
     const now = ctx.currentTime;
     // Add slight random variation for natural feel
     const r = () => 1 + (Math.random() - 0.5) * 0.15;
 
     // ── Phase 1: CLICK — broadband plastic impact ──
-    // The signature "click" of a mechanical switch is a very short
-    // broadband noise burst, not a tone. Bandpass 2–8kHz captures
-    // the plastic-on-plastic impact frequency range.
-    noiseBurst(ctx, out, now, 0,      0.004 * r(), 0.45 * r(), 'bandpass', 5000, 0.4, 2000);
-    noiseBurst(ctx, out, now, 0.0005, 0.003 * r(), 0.25 * r(), 'bandpass', 7000, 0.3, 3500);
+    noiseBurst(ctx, out, noise, now, 0,      0.004 * r(), 0.45 * r(), 'bandpass', 5000, 0.4, 2000);
+    noiseBurst(ctx, out, noise, now, 0.0005, 0.003 * r(), 0.25 * r(), 'bandpass', 7000, 0.3, 3500);
 
     // ── Phase 2: THOCK — low body resonance ──
-    // The "thock" is a low-passed noise thump with a brief 180–220Hz
-    // body resonance from the keycap/plate assembly.
-    noiseBurst(ctx, out, now, 0.002,  0.04  * r(), 0.18 * r(), 'lowpass',  350,  0.5);
+    noiseBurst(ctx, out, noise, now, 0.002,  0.04  * r(), 0.18 * r(), 'lowpass',  350,  0.5);
     // Add a subtle tonal body resonance
     const body = ctx.createOscillator();
     const bodyG = ctx.createGain();
@@ -123,12 +117,10 @@ function playMechKey() {
     body.stop(now + 0.05);
 
     // ── Phase 3: HOLLOW — keycap cavity resonance ──
-    // The hollow echo inside the keycap, bandpass 800–2kHz
-    noiseBurst(ctx, out, now, 0.004,  0.03  * r(), 0.08 * r(), 'bandpass', 1400, 0.6, 700);
+    noiseBurst(ctx, out, noise, now, 0.004,  0.03  * r(), 0.08 * r(), 'bandpass', 1400, 0.6, 700);
 
     // ── Phase 4: SPRING — metallic leaf ping ──
-    // Very narrow bandpass around 2800–3200Hz for the spring ping
-    noiseBurst(ctx, out, now, 0.003,  0.018 * r(), 0.04 * r(), 'bandpass', 3000, 8, 2500);
+    noiseBurst(ctx, out, noise, now, 0.003,  0.018 * r(), 0.04 * r(), 'bandpass', 3000, 8, 2500);
     // Add a pure tone for the metallic quality
     const spring = ctx.createOscillator();
     const springG = ctx.createGain();
@@ -143,7 +135,7 @@ function playMechKey() {
     spring.stop(now + 0.025);
 
     // ── Phase 5: RATTLE — stabilizer/pcb echo ──
-    noiseBurst(ctx, out, now, 0.001, 0.012 * r(), 0.06 * r(), 'highpass', 3000, 0);
+    noiseBurst(ctx, out, noise, now, 0.001, 0.012 * r(), 0.06 * r(), 'highpass', 3000, 0);
 
   } catch {
     /* silent */
@@ -219,7 +211,7 @@ export default function KeyboardEffect() {
             className="absolute"
             style={{ left: ripple.x, top: ripple.y, translateX: '-50%', translateY: '-50%' }}
           >
-            <div className="flex items-center justify-center w-7 h-7 rounded-sm border border-charcoal/8 bg-ivory/85 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-7 h-7 rounded-sm border border-charcoal/8 bg-ivory/90">
               <span className="text-[9px] font-bold text-charcoal/35 font-mono leading-none">
                 {ripple.key}
               </span>

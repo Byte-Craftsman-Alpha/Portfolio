@@ -79,9 +79,26 @@
       ]
     }
     </script>
+    <style>
+      /* Prevent flash of unhydrated static HTML skeleton before React mounts */
+      #initial-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background-color: #faf9f6;
+      }
+    </style>
+    <noscript>
+      <style>
+        #initial-splash {
+          display: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body class="bg-[#faf9f6] text-[#2c2c2c] antialiased">
     <div id="root">
+      <div id="initial-splash" aria-hidden="true"></div>
       <!-- Semantic Static HTML for Search Engine Crawlers & Fast First Paint -->
       <header class="border-b border-[#e8e4df] py-4 px-6 max-w-6xl mx-auto flex items-center justify-between">
         <a href="https://aditya.teamparadox.in/" class="text-sm font-semibold tracking-wide text-[#2c2c2c]">Aditya Chaudhari</a>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { personal } from '../data/portfolio';
@@ -52,8 +52,16 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduced = useReducedMotion();
 
+  const scrolledRef = useRef(false);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const next = window.scrollY > 20;
+      if (next !== scrolledRef.current) {
+        scrolledRef.current = next;
+        setScrolled(next);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -83,13 +91,12 @@ export default function Navbar() {
         animate={{
           y: 0,
           opacity: 1,
-          backgroundColor: scrolled ? 'rgba(250,249,246,0.95)' : 'rgba(250,249,246,0)',
-          backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+          backgroundColor: scrolled ? 'rgba(250,249,246,0.94)' : 'rgba(250,249,246,0)',
           borderBottomColor: scrolled ? '#e8e4df' : 'rgba(232,228,223,0)',
         }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         className="fixed top-0 left-0 right-0 z-40 border-b"
-        style={{ borderBottomWidth: 1 }}
+        style={{ borderBottomWidth: 1, backdropFilter: 'none' }}
       >
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Primary navigation">
           <motion.a
@@ -140,7 +147,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.25 }}
             className="fixed inset-0 z-50 md:hidden"
-            style={{ backgroundColor: 'rgba(250,249,246,0.98)', backdropFilter: 'blur(16px)' }}
+            style={{ backgroundColor: 'rgba(250,249,246,0.98)' }}
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {navLinks.map((link, i) => (

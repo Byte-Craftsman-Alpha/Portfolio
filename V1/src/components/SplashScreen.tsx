@@ -56,7 +56,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           style={{ backgroundColor: '#faf9f6' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.03, filter: 'blur(10px)' }}
+          exit={{ opacity: 0 }}
           transition={{ duration: reduced ? 0 : 0.25, ease: EASE }}
         >
           {/* Dot grid background */}

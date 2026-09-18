@@ -17,6 +17,7 @@ import PointerFollower from './components/PointerFollower';
 import KeyboardEffect from './components/KeyboardEffect';
 import UrlReporter from './components/UrlReporter';
 import SplashScreen from './components/SplashScreen';
+import { LenisProvider } from './lib/LenisProvider';
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -57,39 +58,41 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="bg-ivory text-charcoal min-h-screen font-sans antialiased">
-        {/* Global UI layers — completely outside any filtered container */}
-        <PointerFollower />
-        <KeyboardEffect />
-        <ScrollProgress />
-        <UrlReporter />
+      <LenisProvider>
+        <div className="bg-ivory text-charcoal min-h-screen font-sans antialiased">
+          {/* Global UI layers — completely outside any filtered container */}
+          <PointerFollower />
+          <KeyboardEffect />
+          <ScrollProgress />
+          <UrlReporter />
 
-        {/* Splash screen — fixed overlay, z-[100] */}
-        <SplashScreen onComplete={handleSplashComplete} />
+          {/* Splash screen — fixed overlay, z-[100] */}
+          <SplashScreen onComplete={handleSplashComplete} />
 
-        {/*
-          Main content.
-          CRITICAL: We do NOT use CSS `filter` here, even blur(0px).
-          CSS `filter` creates a new containing block, which breaks
-          `position: fixed` children (mobile menu, etc).
-          Instead, we use opacity only for the splash transition,
-          and SectionReveal handles per-section blur reveals.
-        */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: splashDone ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        >
-          <Navbar />
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <Footer />
-        </motion.div>
-      </div>
+          {/*
+            Main content.
+            CRITICAL: We do NOT use CSS `filter` here, even blur(0px).
+            CSS `filter` creates a new containing block, which breaks
+            `position: fixed` children (mobile menu, etc).
+            Instead, we use opacity only for the splash transition,
+            and SectionReveal handles per-section reveals.
+          */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: splashDone ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            <Navbar />
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            <Footer />
+          </motion.div>
+        </div>
+      </LenisProvider>
     </BrowserRouter>
   );
 }
